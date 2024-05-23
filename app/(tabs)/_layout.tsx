@@ -6,7 +6,7 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import MainScreen from "./mainscreen";
+import MainScreen from "./index";
 import ProfileScreen from "./profile";
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +21,7 @@ const CustomTabBar = ({
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;
-        const iconName = route.name === "mainscreen" ? "home" : "user";
+        const iconName = route.name === "index" ? "home" : "user";
         const color = isFocused ? Colors.blue : "#999";
 
         const onPress = () => {
@@ -53,7 +53,7 @@ const CustomTabBar = ({
 const Layout = () => {
   return (
     <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
-      <Tab.Screen name="mainscreen" component={MainScreen} />
+      <Tab.Screen name="index" component={MainScreen} />
       <Tab.Screen name="profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

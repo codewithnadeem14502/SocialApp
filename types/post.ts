@@ -5,3 +5,8 @@ export interface Post {
 }
 
 export type OnPressFunction = (postId: number) => void;
+
+export type RootStackParamList = {
+  MainScreen: undefined;
+  CameraScreen: undefined;
+};

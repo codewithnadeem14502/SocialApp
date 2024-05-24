@@ -6,7 +6,7 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import MainScreen from "./index";
+import MainScreen from "./mainscreen";
 import ProfileScreen from "./profile";
 
 const Tab = createBottomTabNavigator();

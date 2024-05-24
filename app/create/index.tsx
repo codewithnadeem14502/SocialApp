@@ -4,12 +4,15 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 import AWS from "aws-sdk";
 import { awsConfig } from "./awsConfig";
+import { Stack, useNavigation } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
 
 const CameraScreen = () => {
   const [facing, setFacing] = useState("back");
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<any>(null);
-
+  const navigation = useNavigation();
   useEffect(() => {
     if (!permission) {
       requestPermission();
@@ -72,26 +75,51 @@ const CameraScreen = () => {
   if (!permission.granted) {
     // Camera permissions are not granted yet.
     return (
-      <View style={styles.container}>
-        <Text style={{ textAlign: "center" }}>
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={requestPermission} title="Grant Permission" />
-      </View>
+      <>
+        <Stack.Screen
+          options={{
+            headerTransparent: true,
+            headerTitle: "",
+          }}
+        />
+        <View style={styles.container}>
+          <Text style={{ textAlign: "center" }}>
+            We need your permission to show the camera
+          </Text>
+          <Button onPress={requestPermission} title="Grant Permission" />
+        </View>
+      </>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing as any} ref={cameraRef}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-        </View>
-      </CameraView>
-      <Button title="Take Picture" onPress={takePicture} />
-    </View>
+    <>
+      <Stack.Screen
+        options={{
+          headerTransparent: true,
+          headerTitle: "",
+        }}
+      />
+      <View style={styles.container}>
+        <CameraView
+          style={styles.camera}
+          facing={facing as any}
+          ref={cameraRef}
+        >
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={toggleCameraFacing}
+            >
+              <Text style={styles.text}>Flip Camera</Text>
+            </TouchableOpacity>
+          </View>
+        </CameraView>
+        <TouchableOpacity style={styles.TakeButton} onPress={takePicture}>
+          <Text style={styles.text2}>Take Picture </Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 
@@ -109,15 +137,36 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     margin: 64,
   },
+  backButton: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    zIndex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: 20,
+    padding: 10,
+  },
   button: {
     flex: 1,
     alignSelf: "flex-end",
     alignItems: "center",
+    backgroundColor: "white",
   },
   text: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: Colors.blue,
+  },
+  text2: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
+    color: Colors.white,
+    textAlign: "center",
+    marginVertical: 5,
+  },
+  TakeButton: {
+    padding: 20,
+    backgroundColor: Colors.blue,
   },
 });
 
